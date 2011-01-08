@@ -22,4 +22,8 @@ describe Tetris::Tetromino do
   it "should not be possible to set an invalid type" do
     lambda { @tm.type = 'Q' }.should raise_error  
   end
+  
+  it "should be possible to get a random tetromino" do
+    Tetris::Tetromino.generate_random.should be_kind_of Tetris::Tetromino
+  end
 end

@@ -22,6 +22,14 @@ module Tetris
       end
     end
     
+    def self.generate_random
+      random_index = (VALID_TYPES.length * rand).floor
+      random_type = VALID_TYPES.at(random_index)
+      tm = Tetromino.new
+      tm.type = random_type
+      tm
+    end
+    
   end
   
 end

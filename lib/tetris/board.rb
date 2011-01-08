@@ -7,6 +7,10 @@ module Tetris
       @dimensions = dimensions || Dimensions.new
       @lines_cleared = 0
     end
+    
+    def current_tetromino
+      
+    end
   end
   
 end
