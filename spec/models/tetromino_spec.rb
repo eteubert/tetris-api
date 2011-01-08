@@ -1,12 +1,23 @@
 module Tetris
   class Tetromino
     
-    def type
-      'I'
+    attr_reader :type
+    
+    # VALID_TYPES = %w[I J S T Z L O]
+    
+    def initialize
+      @type = 'I'
+    end
+    
+    def type=(letter)
+      @type = letter
     end
     
     def to_s
-      '****'
+      case @type
+      when 'I' then '****'
+      when 'S' then " **\n** "  
+      end
     end
     
   end
@@ -21,6 +32,11 @@ describe Tetris::Tetromino do
   it "should have a type which is a letter representing the form" do
       tm = Tetris::Tetromino.new 
       tm.type.should eql("I")
-      
+  end
+  
+  it "should be possible to change the type" do
+      tm = Tetris::Tetromino.new
+      tm.type = 'S'
+      tm.to_s.should eql(" **\n** ")
   end
 end
