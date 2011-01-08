@@ -1,11 +1,15 @@
 require 'tetris'
 
 describe Tetris::Board do
+  
+  before(:each) do
+    @game = Tetris::Game.new
+    @board = @game.board
+  end
+  
   it "should have dimensions" do
-    game = Tetris::Game.new
-    board = game.board
-    board.dimensions.height.should eql(20)
-    board.dimensions.width.should eql(10)
+    @board.dimensions.height.should eql(20)
+    @board.dimensions.width.should eql(10)
   end
   
   it "should be possible to set custom dimensions" do
@@ -18,9 +22,6 @@ describe Tetris::Board do
   end
   
   it "should start with 0 lines cleared" do
-    game = Tetris::Game.new
-    board = game.board
-    board.lines_cleared.should be(0)
-    
+    @board.lines_cleared.should be(0)
   end
 end
