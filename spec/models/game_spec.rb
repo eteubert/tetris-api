@@ -10,9 +10,12 @@ module Tetris
   class Dimensions
     attr_accessor :width, :height
     
+    DEFAULT_WIDTH = 10
+    DEFAULT_HEIGHT = 20
+    
     def initialize(values = {})
-      @width = values[:width] || 10
-      @height = values[:height] || 20
+      @width = values[:width] || DEFAULT_WIDTH
+      @height = values[:height] || DEFAULT_HEIGHT
     end
     
   end
