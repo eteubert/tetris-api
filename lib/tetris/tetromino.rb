@@ -6,8 +6,8 @@ module Tetris
     
     VALID_TYPES = %w[I J S T Z L O]
     
-    def initialize
-      @type = 'I'
+    def initialize(type = nil)
+      @type = type || 'I'
     end
     
     def type=(letter)
@@ -25,8 +25,7 @@ module Tetris
     def self.generate_random
       random_index = (VALID_TYPES.length * rand).floor
       random_type = VALID_TYPES.at(random_index)
-      tm = Tetromino.new
-      tm.type = random_type
+      tm = Tetromino.new(random_type)
       tm
     end
     
