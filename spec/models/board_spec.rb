@@ -24,4 +24,9 @@ describe Tetris::Board do
   it "should start with 0 lines cleared" do
     @board.lines_cleared.should be(0)
   end
+  
+  it "should have a current and a next tetromino" do
+    @board.current_tetromino.should be_kind_of(Tetris::Tetromino)
+    @board.next_tetromino.should be_kind_of(Tetris::Tetromino)
+  end
 end
