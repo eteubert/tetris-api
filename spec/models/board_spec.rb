@@ -16,4 +16,11 @@ describe Tetris::Board do
     board.dimensions.height.should eql(8)
     board.dimensions.width.should eql(5)
   end
+  
+  it "should start with 0 lines cleared" do
+    game = Tetris::Game.new
+    board = game.board
+    board.lines_cleared.should be(0)
+    
+  end
 end
