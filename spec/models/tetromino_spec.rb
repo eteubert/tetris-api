@@ -3,13 +3,14 @@ module Tetris
     
     attr_reader :type
     
-    # VALID_TYPES = %w[I J S T Z L O]
+    VALID_TYPES = %w[I J S T Z L O]
     
     def initialize
       @type = 'I'
     end
     
     def type=(letter)
+      raise 'invalit tetromino type' unless VALID_TYPES.include? letter
       @type = letter
     end
     
@@ -38,5 +39,10 @@ describe Tetris::Tetromino do
       tm = Tetris::Tetromino.new
       tm.type = 'S'
       tm.to_s.should eql(" **\n** ")
+  end
+  
+  it "should not be possible to set an invalid type" do
+    tm = Tetris::Tetromino.new
+    lambda { tm.type = 'Q' }.should raise_error  
   end
 end
