@@ -10,7 +10,7 @@ module Tetris
     end
     
     def type=(letter)
-      raise 'invalit tetromino type' unless VALID_TYPES.include? letter
+      raise 'invalid tetromino type' unless VALID_TYPES.include? letter
       @type = letter
     end
     
