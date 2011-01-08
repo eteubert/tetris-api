@@ -1,3 +1,5 @@
+require "tetris"
+
 describe Tetris::Tetromino do
   
   before(:each) do
