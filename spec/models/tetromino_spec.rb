@@ -16,7 +16,7 @@ describe Tetris::Tetromino do
   
   it "should be possible to change the type" do
       @tm.type_letter = 'S'
-      @tm.to_s.should eql(" **\n** ")
+      @tm.to_s.should eql("    \n ** \n**  \n    \n")
   end
   
   it "should not be possible to set an invalid type" do

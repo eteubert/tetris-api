@@ -143,12 +143,11 @@ module Tetris
     
     
     def initialize(type = nil)
-      @type_letter = type || 'I'
+      self.type_letter = type || 'I'
       @rotation_index = 0
     end
     
     def type_letter=(letter)
-      raise 'invalid tetromino type' unless VALID_TYPES.include? letter
       
       @type = case letter
         when "I" then TYPE_I
@@ -158,16 +157,14 @@ module Tetris
         when "Z" then TYPE_Z
         when "L" then TYPE_L
         when "O" then TYPE_O
+        else raise 'invalid tetromino type'
       end
       
       @type_letter = letter
     end
     
     def to_s
-      case @type_letter
-      when 'I' then display(TYPE_I[@rotation_index])
-      when 'S' then " **\n** "  
-      end
+      display(@type[@rotation_index])
     end
     
     def display(tetromino)
