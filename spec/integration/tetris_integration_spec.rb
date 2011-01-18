@@ -8,7 +8,7 @@ describe "tetris command line game" do
     @tm = Tetris::Tetromino.new('O')
     @board.current_tetromino = @tm
     @possibilities = @board.generate_possibilities_for_current_tetromino
-    @possibilities.should have(4).items
+    @possibilities.should have(2).items
   end
   
 end

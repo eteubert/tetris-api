@@ -30,6 +30,10 @@ module Tetris
       @type_letter = letter
     end
     
+    def get
+      @type[@rotation_index]
+    end
+    
     def to_s
       display(@type[@rotation_index])
     end
