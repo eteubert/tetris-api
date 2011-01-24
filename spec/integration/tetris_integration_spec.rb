@@ -45,13 +45,26 @@ describe "tetris command line game" do
     # 000     110  000
     # 000     110  011
     # 100 =>  100  111
-    it "should calc positions for nonempty board", :current => true do
+    it "should calc positions for nonempty board" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 3, :height => 4}))
       @board = @game.board.set(3,0)
       @tm = Tetris::Tetromino.new('O')
       @board.current_tetromino = @tm
       @possibilities = @board.generate_possibilities_for_current_tetromino
       @possibilities.should have(2).items
+    end
+    
+    # 000     000
+    # 000     000
+    # 000     110
+    # 100 =>  111
+    it "should be possible to fit in a Z", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 3, :height => 4}))
+      @board = @game.board.set(3,0)
+      @tm = Tetris::Tetromino.new('Z')
+      @board.current_tetromino = @tm
+      @possibilities = @board.generate_possibilities_for_current_tetromino
+      @possibilities.should have(1).items
     end
   end
   
