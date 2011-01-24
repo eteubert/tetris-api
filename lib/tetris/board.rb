@@ -27,10 +27,12 @@ module Tetris
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
-      rows.each_with_index do |row_obj, row|
+      deep_copy(@board).unshift([1,1,1,1]).each_with_index do |row_obj, row|
         row_obj = row_obj.clone # so the unshifting doesnt affect the board directly
         row_obj.unshift(1).each_with_index do |column_obj, column|
-          column = column - 1 # simulates one line next to board (left)
+          column = column - 1 # simulates one col next to board (left)
+          row = row - 1       # simulates one row above board
+
 
           # can tetromino be placed here?
           status = STATUS_YES
@@ -102,10 +104,10 @@ module Tetris
         end
       end
       
-      possibilities.each do |b|
-        b.display
-        puts "\n"
-      end
+      # possibilities.each do |b|
+      #   b.display
+      #   puts "\n"
+      # end
       possibilities
     end
     
