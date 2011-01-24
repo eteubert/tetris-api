@@ -42,13 +42,13 @@ module Tetris
       end
       
       p = unique_possibilities(possibilities.flatten)
-      # 
-      # p.each do |b|
-      #   b.display
-      #   puts "\n"
-      # end
-      # 
-      # p
+      
+      p.each do |b|
+        b.display
+        puts "\n"
+      end
+      
+      p
     end
     
     def generate_possibilities_for_current_tetromino
@@ -78,34 +78,40 @@ module Tetris
               # block beyond the right edge of the field
               if @board[row + tm_row][column + tm_column] == nil
                 status = STATUS_NO unless @tm[tm_row][tm_column] == 0
-                next
               end
-
+              
               if @board[row + tm_row][column + tm_column] == 1
                 status = STATUS_NO # skipping whole loop would be great
+              end
+              
+              # block beyond the left edge of the field
+              if tm_column + column < 0 && @tm[tm_row][tm_column] > 0
+                status = STATUS_NO
               end
               
               # so there is enough space here, great
               # but is there any ground below?
               # only check bottom row
-              status = STATUS_NO
-              (@tm.count-1).downto(0) do |row_i|
-                next if @tm[row_i].all? { |i| i == 0 }
-                
-                @tm[row_i].each_with_index do |col_j_obj, col_j|
-                  if @tm[row_i][col_j] > 0
-                    if @board[row + row_i + 1] == nil
-                      status = STATUS_YES
-                      break
-                    end
-                    if @board[row + row_i + 1][column + col_j] == 1
-                      status = STATUS_YES
-                      break
+              if status == STATUS_YES
+                status = STATUS_NO
+                (@tm.count-1).downto(0) do |row_i|
+                  next if @tm[row_i].all? { |i| i == 0 }
+
+                  @tm[row_i].each_with_index do |col_j_obj, col_j|
+                    if @tm[row_i][col_j] > 0
+                      if @board[row + row_i + 1] == nil
+                        status = STATUS_YES
+                        break
+                      end
+                      if @board[row + row_i + 1][column + col_j] == 1
+                        status = STATUS_YES
+                        break
+                      end
                     end
                   end
+
+                  break
                 end
-                
-                break
               end
               
             end

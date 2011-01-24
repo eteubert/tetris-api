@@ -16,7 +16,13 @@ module Tetris
     
     def type_letter=(letter)
       
-      @type = case letter
+      @type = type_object_by_letter(letter)
+      
+      @type_letter = letter
+    end
+    
+    def type_object_by_letter(letter)
+      case letter
         when "I" then TYPE_I
         when "J" then TYPE_J
         when "S" then TYPE_S
@@ -26,8 +32,6 @@ module Tetris
         when "O" then TYPE_O
         else raise 'invalid tetromino type'
       end
-      
-      @type_letter = letter
     end
     
     def get
@@ -56,7 +60,7 @@ module Tetris
     end
     
     def rotation_states
-      TYPE_I
+      type_object_by_letter(@type_letter)
     end
     
     def rotate
