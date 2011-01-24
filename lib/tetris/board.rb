@@ -28,15 +28,13 @@ module Tetris
       possibilities = []
       
       rows.each_with_index do |row_obj, row|
-        row_obj.each_with_index do |column_obj, column|
-          
+        row_obj = row_obj.clone # so the unshifting doesnt affect the board directly
+        row_obj.unshift(1).each_with_index do |column_obj, column|
+          column = column - 1 # simulates one line next to board (left)
+
           # can tetromino be placed here?
           status = STATUS_YES
           @tm = @current_tetromino.get;
-          
-          # in case the first column in empty, offset = 1
-          # so tetrominos can be placed on the left edge of the board
-          offset = 0
           
           @tm.each_with_index do |tm_row_obj, tm_row|
             tm_row_obj.each_with_index do |tm_column_obj, tm_column|
