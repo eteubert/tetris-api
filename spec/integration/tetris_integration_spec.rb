@@ -58,13 +58,29 @@ describe "tetris command line game" do
     # 000     000
     # 000     110
     # 100 =>  111
-    it "should be possible to fit in a Z", :current => true do
+    it "should be possible to fit in a Z" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 3, :height => 4}))
       @board = @game.board.set(3,0)
       @tm = Tetris::Tetromino.new('Z')
       @board.current_tetromino = @tm
       @possibilities = @board.generate_possibilities_for_current_tetromino
       @possibilities.should have(1).items
+    end
+  end
+  
+  describe "loose the game" do
+    # 000
+    # 110 + 11 => loose
+    # 110   11
+    it "should be posssible to loose the game", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 3, :height => 3}))
+      @board = @game.board.set(2,0).set(2,1).set(1,0).set(1,1)
+      @tm = Tetris::Tetromino.new('Z')
+      @board.current_tetromino = @tm
+      @game.should_not be_lost
+      @possibilities = @board.generate_possibilities_for_current_tetromino_including_variants
+      @possibilities.should have(0).items
+      @game.should be_lost
     end
   end
   

@@ -22,6 +22,11 @@ module Tetris
       @lines_cleared = 0
       @current_tetromino = Tetromino.generate_random
       @next_tetromino = Tetromino.generate_random
+      @lost = false
+    end
+    
+    def lost?
+      @lost
     end
     
     # set exact coordinate to 1
@@ -48,7 +53,13 @@ module Tetris
         possibilities << generate_possibilities_for_current_tetromino
       end
       
-      unique_possibilities(possibilities.flatten)
+      p = unique_possibilities(possibilities.flatten)
+      
+      if p.empty?
+        @lost = true
+      end
+      
+      p
     end
     
     def generate_possibilities_for_current_tetromino
