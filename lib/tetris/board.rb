@@ -24,6 +24,13 @@ module Tetris
       @next_tetromino = Tetromino.generate_random
     end
     
+    # set exact coordinate to 1
+    # return self so it can be chained
+    def set(x,y)
+      @board[x][y] = 1
+      return self
+    end
+    
     # string of 0 and 1 representing board state
     def state_hash
       @board.flatten.join
@@ -41,14 +48,7 @@ module Tetris
         possibilities << generate_possibilities_for_current_tetromino
       end
       
-      p = unique_possibilities(possibilities.flatten)
-      
-      p.each do |b|
-        b.display
-        puts "\n"
-      end
-      
-      p
+      unique_possibilities(possibilities.flatten)
     end
     
     def generate_possibilities_for_current_tetromino
