@@ -24,11 +24,38 @@ module Tetris
       @next_tetromino = Tetromino.generate_random
     end
     
+    # string of 0 and 1 representing board state
+    def state_hash
+      @board.flatten.join
+    end
+    
+    def unique_possibilities(possibilities)
+      possibilities.uniq {|p| p.state_hash}
+    end
+    
+    def generate_possibilities_for_current_tetromino_including_variants
+      possibilities = []
+      
+      @current_tetromino.rotation_states.length.times do
+        @current_tetromino.rotate
+        possibilities << generate_possibilities_for_current_tetromino
+      end
+      
+      p = unique_possibilities(possibilities.flatten)
+      # 
+      # p.each do |b|
+      #   b.display
+      #   puts "\n"
+      # end
+      # 
+      # p
+    end
+    
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
-      deep_copy(@board).unshift([1,1,1,1]).each_with_index do |row_obj, row|
-        row_obj = row_obj.clone # so the unshifting doesnt affect the board directly
+      deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
+        row_obj = row_obj # so the unshifting doesnt affect the board directly
         row_obj.unshift(1).each_with_index do |column_obj, column|
           column = column - 1 # simulates one col next to board (left)
           row = row - 1       # simulates one row above board
@@ -103,11 +130,7 @@ module Tetris
           
         end
       end
-      
-      # possibilities.each do |b|
-      #   b.display
-      #   puts "\n"
-      # end
+
       possibilities
     end
     

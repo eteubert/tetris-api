@@ -55,8 +55,12 @@ module Tetris
       result
     end
     
+    def rotation_states
+      TYPE_I
+    end
+    
     def rotate
-      @rotation_index = (@rotation_index + 1) % TYPE_I.length
+      @rotation_index = (@rotation_index + 1) % rotation_states.length
       self
     end
     

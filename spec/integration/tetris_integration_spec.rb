@@ -20,4 +20,13 @@ describe "tetris command line game" do
     @possibilities.should have(3).items
   end
   
+  it "should rotate tetrominos when placing them", :current => true do
+    @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 4, :height => 4}))
+    @board = @game.board
+    @tm = Tetris::Tetromino.new('I')
+    @board.current_tetromino = @tm
+    @possibilities = @board.generate_possibilities_for_current_tetromino_including_variants
+    @possibilities.should have(5).items    
+  end
+  
 end
