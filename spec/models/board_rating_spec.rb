@@ -33,7 +33,7 @@ describe Tetris::BoardRating do
       @rating.holes.should eql(6)
     end
     
-    it "should also count each hole just once when there are more than one block above", :current => true do
+    it "should also count each hole just once when there are more than one block above" do
       @board.set(0,4)
       @rating.holes.should eql(6)
     end
@@ -42,7 +42,9 @@ describe Tetris::BoardRating do
   
   describe "Connectd Holes: Same as Holes above, however vertically connected unoccupied cells only count as one hole." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.connected_holes.should eql(3)
+    end
     
   end
   

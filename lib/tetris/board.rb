@@ -186,6 +186,10 @@ module Tetris
       @board
     end
     
+    def columns
+      @board.transpose
+    end
+    
     def remove_complete_lines
       full_row = Array.new(@dimensions.width, 1)
       # delete all complete lines

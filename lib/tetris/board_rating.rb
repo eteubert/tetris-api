@@ -40,6 +40,29 @@ module Tetris
       holes
     end
     
+    # Connectd Holes: Same as Holes above, however vertically connected unoccupied cells only count as one hole.
+    def connected_holes
+      holes = 0
+      
+      @board.columns.each_with_index do |row, row_index|
+        an_occupied_block = false
+        row.each_with_index do |block, column_index|
+          if !an_occupied_block
+            if block == 1
+              an_occupied_block = true
+            end
+          else
+            if block == 0
+              holes = holes + 1
+              an_occupied_block = false
+            end
+          end
+        end
+      end
+      
+      holes
+    end
+    
   end
   
 end
