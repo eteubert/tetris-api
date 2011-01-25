@@ -3,24 +3,27 @@ require "tetris"
 describe Tetris::BoardRating do
 
   before(:each) do
+    # 000000
     # 000011
     # 100001
     # 111001
     # 101101
     # 111001
-    @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 6, :height => 5}))
+    @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 6, :height => 6}))
     @board = @game.board
-                                          .set(0,4).set(0,5)
-      .set(1,0)                                    .set(1,5)
-      .set(2,0).set(2,1).set(2,2)                  .set(2,5)
-      .set(3,0)         .set(3,2).set(3,3)         .set(3,5)
-      .set(4,0).set(4,1).set(4,2)                  .set(4,5)
+                                          .set(1,4).set(1,5)
+      .set(2,0)                                    .set(2,5)
+      .set(3,0).set(3,1).set(3,2)                  .set(3,5)
+      .set(4,0)         .set(4,2).set(4,3)         .set(4,5)
+      .set(5,0).set(5,1).set(5,2)                  .set(5,5)
     @rating = Tetris::BoardRating.new(@board)
   end
 
   describe "Pile Height: The row of the highest occupied cell in the board." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.pile_height.should eql(5)
+    end
     
   end
   
