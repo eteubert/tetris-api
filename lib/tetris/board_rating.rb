@@ -26,8 +26,10 @@ module Tetris
       holes = 0
       @board.rows.each_with_index do |row, row_index|
         row.each_with_index do |block, column_index|
+          # skip occupied cells
           next if block == 1
           
+          # +1 if there is at least one occupied above
           holes = holes + 1 if row_index.times.any? do |i|
             @board.board[i][column_index] == 1
           end
