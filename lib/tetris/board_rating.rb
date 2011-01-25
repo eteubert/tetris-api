@@ -91,6 +91,15 @@ module Tetris
       @board.state_hash.each_char.inject(0) {|sum, block| sum + block.to_i}
     end
     
+    # Weighted Blocks (CF): Same as Blocks above, but blocks in row n count n-times as much as blocks in row 1 (counting from bottom to top).
+    def weighted_blocks
+      sum = 0
+      @board.rows.reverse.each_with_index do |row, row_index|
+        sum = sum + row.inject(0) {|sum, block| sum + block.to_i} * (row_index + 1)
+      end
+      sum
+    end
+    
   end
   
 end

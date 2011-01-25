@@ -90,7 +90,7 @@ describe Tetris::BoardRating do
   
   describe "Blocks (CF): Number of occupied cells on the board." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.blocks.should eql(16)
     end
     
@@ -98,7 +98,15 @@ describe Tetris::BoardRating do
   
   describe "Weighted Blocks (CF): Same as Blocks above, but blocks in row n count n-times as much as blocks in row 1 (counting from bottom to top)." do
     
-    it "should work for main example"
+    # 000000  6*0
+    # 000011  5*2
+    # 100001  4*2
+    # 111001  3*4
+    # 101101  2*4
+    # 111001  1*4 => 42 :)
+    it "should work for main example", :current => true do
+      @rating.weighted_blocks.should eql(42)
+    end
     
   end
   
