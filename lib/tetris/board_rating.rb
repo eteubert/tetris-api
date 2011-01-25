@@ -100,6 +100,24 @@ module Tetris
       sum
     end
     
+    # Row Transitions (PD): Sum of all horizontal occupied/unoccupied-transitions on the board. The outside to the left and right counts as occupied.
+    def row_transitions
+      sum = 0
+      @board.rows.each_with_index do |row, row_index|
+        # first column
+        sum = sum + 1 if row.first == 0
+        # last column
+        sum = sum + 1 if row.last == 0
+        row.each_with_index do |block, column_index|
+          # general case without first and last column
+          if block != row[column_index + 1] && row[column_index + 1] != nil
+            sum = sum + 1
+          end
+        end
+      end
+      sum
+    end
+    
   end
   
 end

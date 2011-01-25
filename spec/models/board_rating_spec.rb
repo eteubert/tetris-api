@@ -104,7 +104,7 @@ describe Tetris::BoardRating do
     # 111001  3*4
     # 101101  2*4
     # 111001  1*4 => 42 :)
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.weighted_blocks.should eql(42)
     end
     
@@ -112,7 +112,15 @@ describe Tetris::BoardRating do
   
   describe "Row Transitions (PD): Sum of all horizontal occupied/unoccupied-transitions on the board. The outside to the left and right counts as occupied." do
     
-    it "should work for main example"
+    # 000000  2
+    # 000011  2
+    # 100001  2
+    # 111001  2
+    # 101101  4
+    # 111001  2 => 13
+    it "should work for main example", :current => true do
+      @rating.row_transitions.should eql(14)
+    end
     
   end
   
