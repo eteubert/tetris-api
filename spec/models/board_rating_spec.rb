@@ -21,7 +21,7 @@ describe Tetris::BoardRating do
 
   describe "Pile Height: The row of the highest occupied cell in the board." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.pile_height.should eql(5)
     end
     
@@ -29,7 +29,9 @@ describe Tetris::BoardRating do
   
   describe "Holes: The number of all unoccupied cells that have at least one occupied above them." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.holes.should eql(6)
+    end
     
   end
   

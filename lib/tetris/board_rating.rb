@@ -21,6 +21,25 @@ module Tetris
       return @board.dimensions.height - empty_lines_on_top
     end
     
+    # Holes: The number of all unoccupied cells that have at least one occupied above them.
+    def holes
+      holes = 0
+      @board.rows.each_with_index do |row, row_index|
+        row.each_with_index do |block, column_index|
+          next if block == 1
+          
+          row_index.times do |i|
+            if @board.board[i][column_index] == 1
+              holes = holes + 1
+            end
+          end
+          
+        end
+      end
+      
+      holes
+    end
+    
   end
   
 end
