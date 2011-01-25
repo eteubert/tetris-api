@@ -177,6 +177,20 @@ module Tetris
 
     end
     
+    def remove_complete_lines
+      rows.each_with_index do |row, row_index|
+        if row.present? && row.all? {|r| r == 1}
+          # remove row
+          @board[row_index] = nil 
+          # add new empty row
+          @board.unshift(Array.new(@dimensions.width ,0))
+        end
+      end
+      
+      # remove nil rows
+      @board.compact!
+    end
+    
   end
   
 end

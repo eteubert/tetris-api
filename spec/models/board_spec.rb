@@ -29,4 +29,21 @@ describe Tetris::Board do
     @board.current_tetromino.should be_kind_of(Tetris::Tetromino)
     @board.next_tetromino.should be_kind_of(Tetris::Tetromino)
   end
+  
+  describe "line deletion" do
+    
+    # 
+    # 
+    # 1   =>
+    # 111    1
+    it "should be possible to delete the bottom line", :current => true do
+      dimensions = Tetris::Dimensions.new({:width => 3, :height => 4})
+      game = Tetris::Game.new(dimensions)
+      board = game.board.set(3,0).set(3,1).set(3,2).set(2,0)
+      board.remove_complete_lines
+      board.state_hash.should eql "000000000100"
+    end
+    
+  end
+  
 end

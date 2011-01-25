@@ -72,7 +72,7 @@ describe "tetris command line game" do
     # 000
     # 110 + 11 => loose
     # 110   11
-    it "should be possible to loose the game", :current => true do
+    it "should be possible to loose the game" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 3, :height => 3}))
       @board = @game.board.set(2,0).set(2,1).set(1,0).set(1,1)
       @tm = Tetris::Tetromino.new('Z')
