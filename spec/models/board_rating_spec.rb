@@ -64,7 +64,7 @@ describe Tetris::BoardRating do
   
   describe "Altitude Difference: The difference between the highest occupied and lowest free cell that are directly reachable from the top." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.altitude_difference.should eql(3)
     end
     
@@ -90,7 +90,9 @@ describe Tetris::BoardRating do
   
   describe "Blocks (CF): Number of occupied cells on the board." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.blocks.should eql(16)
+    end
     
   end
   

@@ -87,6 +87,10 @@ module Tetris
       altitudes.max - altitudes.min
     end
     
+    def blocks
+      @board.state_hash.each_char.inject(0) {|sum, block| sum + block.to_i}
+    end
+    
   end
   
 end
