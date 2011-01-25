@@ -50,7 +50,7 @@ describe Tetris::BoardRating do
   
   describe "Removed Lines: The number of lines that were cleared in the last step to get to the current board." do
     
-    it "should work for simple example", :current => true do
+    it "should work for simple example" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 2, :height => 4}))
       @board = @game.board
         .set(2,0).set(2,1)
@@ -64,7 +64,9 @@ describe Tetris::BoardRating do
   
   describe "Altitude Difference: The difference between the highest occupied and lowest free cell that are directly reachable from the top." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.altitude_difference.should eql(3)
+    end
     
   end
   

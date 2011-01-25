@@ -68,6 +68,25 @@ module Tetris
       @board.previously_removed_lines
     end
     
+    # Altitude Difference: The difference between the highest occupied and lowest free cell that are directly reachable from the top.
+    def altitude_difference
+      altitudes = []
+      @board.columns.each do |column|
+        continue_counting = true
+        empty_from_top = column.inject(0) do |sum, block|
+          continue_counting = false if block == 1
+          if continue_counting
+            sum + 1
+          else
+            sum
+          end
+        end
+        altitudes << (@board.dimensions.height - empty_from_top)
+      end
+      
+      altitudes.max - altitudes.min
+    end
+    
   end
   
 end
