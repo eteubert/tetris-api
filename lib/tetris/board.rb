@@ -54,7 +54,7 @@ module Tetris
         possibilities << b.generate_possibilities_for_current_tetromino_including_variants
       end
       
-      possibilities.flatten
+      unique_possibilities possibilities.flatten
     end
     
     def generate_possibilities_for_current_tetromino_including_variants
@@ -154,6 +154,7 @@ module Tetris
               end
             end
             
+            possible_board.remove_complete_lines
             possibilities << possible_board
           end
           
