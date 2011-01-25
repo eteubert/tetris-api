@@ -50,12 +50,27 @@ describe Tetris::Board do
     # 1
     # 111 =>
     # 111    1
-    it "should be possible to delete multiple connected lines", :current => true do
+    it "should be possible to delete multiple connected lines" do
       dimensions = Tetris::Dimensions.new({:width => 3, :height => 4})
       game = Tetris::Game.new(dimensions)
       board = game.board
         .set(1,0)
         .set(2,0).set(2,1).set(2,2)
+        .set(3,0).set(3,1).set(3,2)
+      board.remove_complete_lines
+      board.state_hash.should eql "000000000100"
+    end
+    
+    # 
+    # 111
+    # 1   =>
+    # 111    1
+    it "should be possible to delete multiple non-connected lines", :current => true do
+      dimensions = Tetris::Dimensions.new({:width => 3, :height => 4})
+      game = Tetris::Game.new(dimensions)
+      board = game.board
+        .set(1,0).set(1,1).set(1,2)
+        .set(2,0)
         .set(3,0).set(3,1).set(3,2)
       board.remove_complete_lines
       board.state_hash.should eql "000000000100"
