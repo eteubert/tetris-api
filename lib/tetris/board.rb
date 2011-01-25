@@ -8,7 +8,7 @@ module Tetris
   
   class Board
     attr_reader :dimensions, :lines_cleared, :next_tetromino
-    attr_accessor :current_tetromino, :board
+    attr_accessor :current_tetromino, :next_tetromino, :board
     
     STATUS_YES = 1
     STATUS_NO = 0
@@ -43,6 +43,18 @@ module Tetris
     
     def unique_possibilities(possibilities)
       possibilities.uniq {|p| p.state_hash}
+    end
+    
+    def generate_possibilities_for_both_tetrominos
+      possibilities = []
+      
+      boards_for_cur_tm = generate_possibilities_for_current_tetromino_including_variants
+      boards_for_cur_tm.each do |b|
+        b.current_tetromino = next_tetromino
+        possibilities << b.generate_possibilities_for_current_tetromino_including_variants
+      end
+      
+      possibilities.flatten
     end
     
     def generate_possibilities_for_current_tetromino_including_variants

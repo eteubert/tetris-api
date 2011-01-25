@@ -65,7 +65,7 @@ describe Tetris::Board do
     # 111
     # 1   =>
     # 111    1
-    it "should be possible to delete multiple non-connected lines", :current => true do
+    it "should be possible to delete multiple non-connected lines" do
       dimensions = Tetris::Dimensions.new({:width => 3, :height => 4})
       game = Tetris::Game.new(dimensions)
       board = game.board

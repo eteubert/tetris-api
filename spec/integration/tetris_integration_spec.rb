@@ -84,6 +84,19 @@ describe "tetris command line game" do
     end
   end
   
+  describe "double tetromino placement" do
+  
+    it "should calculate all boards for current and next tetromino", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 4, :height => 4}))
+      @board = @game.board
+      @board.current_tetromino  = Tetris::Tetromino.new('O')
+      @board.next_tetromino     = Tetris::Tetromino.new('I')
+      @possibilities = @board.generate_possibilities_for_both_tetrominos
+      @possibilities.should have(9).items
+    end
+    
+  end
+  
   def possibilities_printer(p)
     p.each do |b|
       b.display
