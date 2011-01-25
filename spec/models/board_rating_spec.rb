@@ -42,7 +42,7 @@ describe Tetris::BoardRating do
   
   describe "Connectd Holes: Same as Holes above, however vertically connected unoccupied cells only count as one hole." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.connected_holes.should eql(3)
     end
     
@@ -50,7 +50,15 @@ describe Tetris::BoardRating do
   
   describe "Removed Lines: The number of lines that were cleared in the last step to get to the current board." do
     
-    it "should work for main example"
+    it "should work for simple example", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 2, :height => 4}))
+      @board = @game.board
+        .set(2,0).set(2,1)
+        .set(3,0).set(3,1)
+      @board.remove_complete_lines
+      @rating = Tetris::BoardRating.new(@board)
+      @rating.removed_lines.should eql(2)
+    end
     
   end
   

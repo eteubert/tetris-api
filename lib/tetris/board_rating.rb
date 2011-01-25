@@ -63,6 +63,11 @@ module Tetris
       holes
     end
     
+    # Removed Lines: The number of lines that were cleared in the last step to get to the current board.
+    def removed_lines
+      @board.previously_removed_lines
+    end
+    
   end
   
 end

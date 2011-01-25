@@ -8,7 +8,7 @@ module Tetris
   
   class Board
     attr_reader :dimensions, :lines_cleared, :next_tetromino
-    attr_accessor :current_tetromino, :next_tetromino, :board
+    attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines
     
     STATUS_YES = 1
     STATUS_NO = 0
@@ -51,7 +51,10 @@ module Tetris
       boards_for_cur_tm = generate_possibilities_for_current_tetromino_including_variants
       boards_for_cur_tm.each do |b|
         b.current_tetromino = next_tetromino
+        lines_deleted_in_first_iteration = b.previously_removed_lines
         possibilities << b.generate_possibilities_for_current_tetromino_including_variants
+        # remember deleted lines for both tetrominos
+        b.previously_removed_lines = b.previously_removed_lines + lines_deleted_in_first_iteration
       end
       
       unique_possibilities possibilities.flatten
@@ -193,9 +196,11 @@ module Tetris
     def remove_complete_lines
       full_row = Array.new(@dimensions.width, 1)
       # delete all complete lines
-      @board.delete(full_row) 
+      @board.delete(full_row)
+      # memorize amount of deleted lines
+      @previously_removed_lines = @dimensions.height - @board.length
       # drop in a new line for each removed line
-      (@dimensions.height - @board.length).times do
+      @previously_removed_lines.times do
          @board.unshift(Array.new(@dimensions.width, 0))
       end
     end
