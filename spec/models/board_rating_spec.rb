@@ -118,7 +118,7 @@ describe Tetris::BoardRating do
     # 111001  2
     # 101101  4
     # 111001  2 => 13
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.row_transitions.should eql(14)
     end
     
@@ -126,7 +126,16 @@ describe Tetris::BoardRating do
   
   describe "Column Transitions (PD): As Row Transitions above, but counts vertical transitions. The outside below the game-board is considered occupied." do
     
-    it "should work for main example"
+    # 242442  => 18
+    # 000000
+    # 000011
+    # 100001
+    # 111001
+    # 101101
+    # 111001
+    it "should work for main example", :current => true do
+      @rating.column_transitions.should eql(18)
+    end
     
   end
   

@@ -118,6 +118,24 @@ module Tetris
       sum
     end
     
+    # Column Transitions (PD): As Row Transitions above, but counts vertical transitions. The outside below the game-board is considered occupied.
+    def column_transitions
+      sum = 0
+      @board.columns.each_with_index do |row, row_index|
+        # first column
+        sum = sum + 1 if row.first == 0
+        # last column
+        sum = sum + 1 if row.last == 0
+        row.each_with_index do |block, column_index|
+          # general case without first and last column
+          if block != row[column_index + 1] && row[column_index + 1] != nil
+            sum = sum + 1
+          end
+        end
+      end
+      sum
+    end
+    
   end
   
 end
