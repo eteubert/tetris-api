@@ -29,7 +29,12 @@ describe Tetris::BoardRating do
   
   describe "Holes: The number of all unoccupied cells that have at least one occupied above them." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
+      @rating.holes.should eql(6)
+    end
+    
+    it "should also count each hole just once when there are more than one block above", :current => true do
+      @board.set(0,4)
       @rating.holes.should eql(6)
     end
     

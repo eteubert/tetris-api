@@ -28,10 +28,8 @@ module Tetris
         row.each_with_index do |block, column_index|
           next if block == 1
           
-          row_index.times do |i|
-            if @board.board[i][column_index] == 1
-              holes = holes + 1
-            end
+          holes = holes + 1 if row_index.times.any? do |i|
+            @board.board[i][column_index] == 1
           end
           
         end
