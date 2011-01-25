@@ -174,14 +174,13 @@ module Tetris
     end
     
     def remove_complete_lines
-      rows.each do |row|
-        delete_row(row) if row.all? {|r| r == 1}
+      full_row = Array.new(@dimensions.width, 1)
+      # delete all complete lines
+      @board.delete(full_row) 
+      # drop in a new line for each removed line
+      (@dimensions.height - @board.length).times do
+         @board.unshift(Array.new(@dimensions.width, 0))
       end
-    end
-    
-    def delete_row(row)
-      @board.delete(row)
-      @board.unshift(Array.new(@dimensions.width, 0))
     end
     
   end
