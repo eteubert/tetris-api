@@ -173,13 +173,9 @@ module Tetris
       @board
     end
     
-    def columns
-
-    end
-    
     def remove_complete_lines
       rows.each do |row|
-        delete_row(row) if row.present? && row.all? {|r| r == 1}
+        delete_row(row) if row.all? {|r| r == 1}
       end
     end
     
