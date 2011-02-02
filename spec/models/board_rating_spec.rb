@@ -78,7 +78,39 @@ describe Tetris::BoardRating do
   
   describe "Sum of all Wells (CF): Sum of all wells on the board." do
     
-    it "should work for main example"
+    it "should work for main example", :current => true do
+      @rating.sum_of_all_wells.should eql(0)
+    end
+    
+    # 01101     X11Y1
+    # 01101 =>  X11Y1 X ... first well
+    # 01011     X1011 Y ... second well
+    it "should work for simple example", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 3}))
+      @board = @game.board
+        .set(0,1).set(0,2).set(0,4)
+        .set(1,1).set(1,2).set(1,4)
+        .set(2,1).set(2,3).set(2,4)
+      @board.remove_complete_lines
+      @rating = Tetris::BoardRating.new(@board)
+      
+      @rating.sum_of_all_wells.should eql(2)
+    end
+    
+    # 00101     001Y1
+    # 01101 =>  X11Y1 X ... first well
+    # 01011     X1011 Y ... second well
+    it "should work when well does not start at the ceiling", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 3}))
+      @board = @game.board
+                 .set(0,2).set(0,4)
+        .set(1,1).set(1,2).set(1,4)
+        .set(2,1).set(2,3).set(2,4)
+      @board.remove_complete_lines
+      @rating = Tetris::BoardRating.new(@board)
+      
+      @rating.sum_of_all_wells.should eql(2)
+    end
     
   end
   
@@ -133,7 +165,7 @@ describe Tetris::BoardRating do
     # 111001
     # 101101
     # 111001
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.column_transitions.should eql(18)
     end
     

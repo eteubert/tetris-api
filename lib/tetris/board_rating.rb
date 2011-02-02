@@ -110,6 +110,60 @@ module Tetris
       transitions @board.columns
     end
     
+    # Sum of all Wells (CF): Sum of all wells on the board.
+    def sum_of_all_wells
+      wells = []
+      
+      @board.columns.each_with_index do |column, column_index|
+        column.each_with_index do |block, row_index|
+          is_empty                = (block == 0)
+          if column_index > 0
+            border_on_the_left    = (@board.board[row_index][column_index - 1] == 1)
+          else
+            border_on_the_left    = true
+          end
+          if column_index < @board.dimensions.width - 1
+            border_on_the_right   = (@board.board[row_index][column_index + 1] == 1)
+          else
+            border_on_the_right   = true
+          end
+          
+          is_well_block = is_empty && border_on_the_left && border_on_the_right
+          
+          if is_well_block
+            # above well block must be 0 or end of board
+            next unless @board.board[row_index-1][column_index] == 0 || row_index == 0
+            if column_index != nil
+              wells[column_index] = [] unless wells[column_index]
+              wells[column_index] << row_index 
+            end
+          end
+          
+        end
+      end
+      
+      column_index = -1 # workaround to have a column index in the loop
+      wells.inject(0) do |sum, column|
+        column_index = column_index + 1
+        valid_well = column != nil
+
+        if valid_well
+          # wells-blocks must not have 
+          # an occupied block above them
+          valid_well = true
+          column.each do |row|
+            (row-1).downto(0) do |row_index|
+              if @board.board[row_index][column_index] == 1
+                valid_well = false
+              end
+            end
+          end
+        end
+        
+        sum = (valid_well) ? sum + 1 : sum
+      end
+    end
+    
     private
     
     def transitions(array)
