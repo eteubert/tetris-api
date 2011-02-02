@@ -142,13 +142,14 @@ module Tetris
         end
       end
       
-      column_index = -1 # workaround to have a column index in the loop
+      # workaround to have a column index in the loop
+      column_index = -1
       wells.inject(0) do |sum, column|
         column_index = column_index + 1
         valid_well = column != nil
 
         if valid_well
-          # wells-blocks must not have 
+          # well-blocks must not have 
           # an occupied block above them
           valid_well = true
           column.each do |row|

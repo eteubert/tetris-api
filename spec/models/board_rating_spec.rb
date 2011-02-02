@@ -78,14 +78,14 @@ describe Tetris::BoardRating do
   
   describe "Sum of all Wells (CF): Sum of all wells on the board." do
     
-    it "should work for main example", :current => true do
+    it "should work for main example" do
       @rating.sum_of_all_wells.should eql(0)
     end
     
     # 01101     X11Y1
     # 01101 =>  X11Y1 X ... first well
     # 01011     X1011 Y ... second well
-    it "should work for simple example", :current => true do
+    it "should work for simple example" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 3}))
       @board = @game.board
         .set(0,1).set(0,2).set(0,4)
@@ -100,7 +100,7 @@ describe Tetris::BoardRating do
     # 00101     001Y1
     # 01101 =>  X11Y1 X ... first well
     # 01011     X1011 Y ... second well
-    it "should work when well does not start at the ceiling", :current => true do
+    it "should work when well does not start at the ceiling" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 3}))
       @board = @game.board
                  .set(0,2).set(0,4)
