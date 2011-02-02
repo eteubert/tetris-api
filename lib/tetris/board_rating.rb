@@ -122,6 +122,11 @@ module Tetris
       max || 0
     end
     
+    # Landing Height (PD): The height at which the last tetramino has been placed.
+    def landing_height
+      @board.landing_height
+    end
+    
     private
     
     def well_blocks

@@ -8,7 +8,7 @@ module Tetris
   
   class Board
     attr_reader :dimensions, :lines_cleared, :next_tetromino
-    attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines
+    attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines, :landing_height
     
     STATUS_YES = 1
     STATUS_NO = 0
@@ -23,6 +23,7 @@ module Tetris
       @current_tetromino = Tetromino.generate_random
       @next_tetromino = Tetromino.generate_random
       @lost = false
+      @landing_height = 0
     end
     
     def lost?
@@ -147,13 +148,13 @@ module Tetris
             # that one fits
             # change the board and add it to possibilities
             possible_board = deep_copy(self)
+            possible_board.landing_height = 0
             @tm.each_with_index do |tm_row_obj2, tm_row2|
               tm_row_obj2.each_with_index do |tm_column2_obj, tm_column2|
                 if @tm[tm_row2][tm_column2] > 0
                   possible_board.board[row + tm_row2][column + tm_column2] = 1
-                  # puts "possible_board.board[#{row + tm_row2}][#{column + tm_column2}]"
+                  possible_board.landing_height = row + tm_row2 if row + tm_row2 > possible_board.landing_height
                 end
-                
               end
             end
             

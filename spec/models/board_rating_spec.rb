@@ -133,7 +133,17 @@ describe Tetris::BoardRating do
   
   describe "Landing Height (PD): The height at which the last tetramino has been placed." do
     
-    it "should work for main example"
+    it "should work for empty field", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 3}))
+      @board = @game.board.set(2,0)
+      @board.current_tetromino = Tetris::Tetromino.new('O')
+      boards = @board.generate_possibilities_for_current_tetromino
+      boards.all? do |board|
+        board.landing_height.to_s.should match(/[21]/)
+        rating = Tetris::BoardRating.new(board)
+        rating.landing_height.should eql(board.landing_height)
+      end
+    end
     
   end
   
