@@ -1,22 +1,21 @@
-# # run specs when they change
-# watch('spec/.*/.*\.rb') do |match|
-#   exec = "rspec -c #{match[0]}"
-#   puts exec
-#   system(exec)
-# end
-# 
-# # run corresponding specs for tetris libs
-# watch('lib/tetris/(.*)\.rb') do |match| 
-#   exec = "rspec -c spec/models/#{match[1]}_spec.rb"
-#   puts exec
-#   system(exec)
-# end
+def growl(options = {})
+  options[:name] ||= 'RubyTest'
+  system("growlnotify --message \"#{options[:message]}\" --image ~/Library/#{options[:name]}/#{options[:image]}.png --name #{options[:name]}")
+end
 
 # watch tests tagged "current"
 watch('.*') do |match|
-  exec = "rspec --tag current -c spec"
-  puts exec
-  system(exec)
+  exec_string = "rspec --tag current spec"
+  puts exec_string
+  output = `#{exec_string}`
+  puts output
+  match = output.match(/(\d+)\sfailures?/)
+  failures = (match) ? match[1].to_i : 0
+  if failures > 0
+    growl :message => "#{failures} Failures :(", :image => "fail"
+  else
+    growl :message => "Yeah, all green! :)", :image => "ok"
+  end
 end
 
 # Ctrl-\
