@@ -112,6 +112,19 @@ module Tetris
     
     # Sum of all Wells (CF): Sum of all wells on the board.
     def sum_of_all_wells
+      well_blocks.compact.count
+    end
+    
+    # Maximum Well Depth: The depth of the deepest well (with a width of one) on the board.
+    def maximum_well_depth
+      wells = well_blocks
+      max = wells.compact.map {|column| column.count }.max
+      max || 0
+    end
+    
+    private
+    
+    def well_blocks
       wells = []
       
       @board.columns.each_with_index do |column, column_index|
@@ -142,9 +155,11 @@ module Tetris
         end
       end
       
+      # now remove all well blocks that are no real wells
+      
       # workaround to have a column index in the loop
       column_index = -1
-      wells.inject(0) do |sum, column|
+      wells.map! do |column|
         column_index = column_index + 1
         valid_well = column != nil
 
@@ -161,11 +176,11 @@ module Tetris
           end
         end
         
-        sum = (valid_well) ? sum + 1 : sum
+        (valid_well) ? column : nil
       end
+      
+      wells
     end
-    
-    private
     
     def transitions(array)
       sum = 0
