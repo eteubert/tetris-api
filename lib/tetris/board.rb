@@ -53,7 +53,7 @@ module Tetris
       
       boards_for_cur_tm = generate_possibilities_for_current_tetromino_including_variants
       boards_for_cur_tm.each do |b|
-        b.current_tetromino = next_tetromino
+        # b.current_tetromino = next_tetromino
         lines_deleted_in_first_iteration = b.previously_removed_lines
         possibilities << b.generate_possibilities_for_current_tetromino_including_variants
         # remember deleted lines for both tetrominos
@@ -160,6 +160,10 @@ module Tetris
                 end
               end
             end
+            
+            # forward tetrominos
+            possible_board.current_tetromino = deep_copy(possible_board.next_tetromino)
+            possible_board.next_tetromino = Tetromino.generate_random
             
             possible_board.remove_complete_lines
             possibilities << possible_board
