@@ -203,6 +203,7 @@ module Tetris
       @board.delete(full_row)
       # memorize amount of deleted lines
       @previously_removed_lines = @dimensions.height - @board.length
+      @lines_cleared += @previously_removed_lines
       # drop in a new line for each removed line
       @previously_removed_lines.times do
          @board.unshift(Array.new(@dimensions.width, 0))
