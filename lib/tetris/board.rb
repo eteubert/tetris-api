@@ -7,8 +7,8 @@ end
 module Tetris
   
   class Board
-    attr_reader :dimensions, :lines_cleared, :next_tetromino, :parent
-    attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines, :landing_height
+    attr_reader :dimensions, :lines_cleared, :next_tetromino
+    attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines, :landing_height, :parent
     
     STATUS_YES = 1
     STATUS_NO = 0
@@ -83,8 +83,6 @@ module Tetris
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
-      @parent = deep_copy(@board)
-      
       deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
         row_obj = row_obj # so the unshifting doesnt affect the board directly
         row_obj.unshift(1).each_with_index do |column_obj, column|
@@ -152,6 +150,7 @@ module Tetris
             # that one fits
             # change the board and add it to possibilities
             possible_board = deep_copy(self)
+            possible_board.parent = self
             possible_board.landing_height = 0
             @tm.each_with_index do |tm_row_obj2, tm_row2|
               tm_row_obj2.each_with_index do |tm_column2_obj, tm_column2|
