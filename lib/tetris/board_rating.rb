@@ -2,6 +2,21 @@ module Tetris
   
   class BoardRating
     
+    RATING_NAMES = [
+      "pile_height",
+      "holes",
+      "connected_holes",
+      "removed_lines",
+      "altitude_difference",
+      "blocks",
+      "weighted_blocks",
+      "row_transitions",
+      "column_transitions",
+      "sum_of_all_wells",
+      "maximum_well_depth",
+      "landing_height"
+    ]
+    
     def initialize(board)
       @board = board
     end

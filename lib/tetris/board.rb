@@ -7,7 +7,7 @@ end
 module Tetris
   
   class Board
-    attr_reader :dimensions, :lines_cleared, :next_tetromino
+    attr_reader :dimensions, :lines_cleared, :next_tetromino, :parent
     attr_accessor :current_tetromino, :next_tetromino, :board, :previously_removed_lines, :landing_height
     
     STATUS_YES = 1
@@ -24,6 +24,8 @@ module Tetris
       @next_tetromino = Tetromino.generate_random
       @lost = false
       @landing_height = 0
+      # parent board
+      @parent = nil
     end
     
     def lost?
@@ -80,6 +82,8 @@ module Tetris
     
     def generate_possibilities_for_current_tetromino
       possibilities = []
+      
+      @parent = deep_copy(@board)
       
       deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
         row_obj = row_obj # so the unshifting doesnt affect the board directly
