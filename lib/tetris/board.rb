@@ -116,27 +116,9 @@ module Tetris
               
               # so there is enough space here, great
               # but is there any ground below?
-              # only check bottom row
+              # only check bottom row of TM
               if status == STATUS_YES
-                status = STATUS_NO
-                (@tm.count-1).downto(0) do |row_i|
-                  next if @tm[row_i].all? { |i| i == 0 }
-
-                  @tm[row_i].each_with_index do |col_j_obj, col_j|
-                    if @tm[row_i][col_j] > 0
-                      if @board[row + row_i + 1] == nil
-                        status = STATUS_YES
-                        break
-                      end
-                      if @board[row + row_i + 1][column + col_j] == 1
-                        status = STATUS_YES
-                        break
-                      end
-                    end
-                  end
-
-                  break
-                end
+                status = tetromino_sticky?(@tm, row, column)
               end
               
             end
@@ -215,6 +197,28 @@ module Tetris
     end
     
     private 
+    
+    # there must be at least one block below the TM
+    def tetromino_sticky?(tm, row, column)
+      (tm.count-1).downto(0) do |row_i|
+        next if tm[row_i].all? { |i| i == 0 }
+
+        tm[row_i].each_with_index do |col_j_obj, col_j|
+          if tm[row_i][col_j] > 0
+            if @board[row + row_i + 1] == nil
+              return STATUS_YES
+            end
+            if @board[row + row_i + 1][column + col_j] == 1
+              return STATUS_YES
+            end
+          end
+        end
+
+        break
+      end
+      
+      return STATUS_NO
+    end
     
     def for_each_row
       deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
