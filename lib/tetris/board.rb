@@ -80,29 +80,11 @@ module Tetris
       p
     end
     
-    def for_each_row
-      deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
-        yield row_obj, row
-      end
-    end
-    
-    def for_each_block_in_row(row_obj, row)
-      row_obj.unshift(1).each_with_index do |column_obj, column|
-        column = column - 1 # simulates one col next to board (left)
-        row = row - 1       # simulates one row above board
-        
-        yield column_obj, column, row
-      end
-    end
-    
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
       for_each_row do |row_obj, row|
-        
         for_each_block_in_row(row_obj, row) do |column_obj, column, row|
-
-
 
           # can tetromino be placed here?
           status = STATUS_YES
@@ -229,6 +211,23 @@ module Tetris
       # drop in a new line for each removed line
       @previously_removed_lines.times do
          @board.unshift(Array.new(@dimensions.width, 0))
+      end
+    end
+    
+    private 
+    
+    def for_each_row
+      deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
+        yield row_obj, row
+      end
+    end
+    
+    def for_each_block_in_row(row_obj, row)
+      row_obj.unshift(1).each_with_index do |column_obj, column|
+        column = column - 1 # simulates one col next to board (left)
+        row = row - 1       # simulates one row above board
+        
+        yield column_obj, column, row
       end
     end
     
