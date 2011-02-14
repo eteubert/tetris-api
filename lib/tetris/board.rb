@@ -84,6 +84,7 @@ module Tetris
       possibilities = []
       
       for_each_row do |row_obj, row|
+        tm_was_placed_somewhere_in_that_row = STATUS_NO
         for_each_block_in_row(row_obj, row) do |column_obj, column, row|
 
           # can tetromino be placed here?
@@ -118,6 +119,7 @@ module Tetris
               # but is there any ground below?
               # only check bottom row of TM
               if status == STATUS_YES
+                tm_was_placed_somewhere_in_that_row = STATUS_YES
                 status = tetromino_sticky?(@tm, row, column)
               end
               
@@ -145,9 +147,15 @@ module Tetris
             
             possible_board.remove_complete_lines
             possibilities << possible_board
-          end
-          
+          end          
         end
+        
+        # we now have iterated over all blocks in that row
+        # in case we were not able to place it here, we cannot get past this line
+        if tm_was_placed_somewhere_in_that_row == STATUS_NO
+          break
+        end
+        
       end
 
       possibilities
