@@ -177,14 +177,18 @@ module Tetris
     
     def display
       
-      result = ''
+      result = ""
       
       rows.each do |row|
         row.each do |column|
           if column == 1
-            result << '1'
+            # result << "\xe2\x96\xa0"
+            # result << "\xe2\x97\xbc"
+            result << "\342\226\210"
           else
-            result << "0"
+            # result << "\xe2\x96\xa1"
+            # result << "\xe2\x97\xbb"
+            result << "\342\226\221"
           end
         end
         result << "\n"
