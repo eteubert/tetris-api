@@ -104,11 +104,10 @@ module Tetris
           # can tetromino be placed here?
           status = STATUS_YES
           @tm = @current_tetromino.get;
-          
           @tm.each_with_index do |tm_row_obj, tm_row|
             tm_row_obj.each_with_index do |tm_column_obj, tm_column|
               next if @tm[tm_row][tm_column] == 0
-              
+
               # block below
               if @board[row + tm_row] == nil
                 status = STATUS_NO unless @tm[tm_row].all? { |i| i == 0 }
@@ -259,6 +258,8 @@ module Tetris
     
     def for_each_row
       deep_copy(@board).unshift(Array.new(@board.length,1)).each_with_index do |row_obj, row|
+        row = row - 1       # simulates one row above board
+        
         yield row_obj, row
       end
     end
@@ -266,7 +267,6 @@ module Tetris
     def for_each_block_in_row(row_obj, row)
       row_obj.unshift(1).each_with_index do |column_obj, column|
         column = column - 1 # simulates one col next to board (left)
-        row = row - 1       # simulates one row above board
         
         yield column_obj, column, row
       end
