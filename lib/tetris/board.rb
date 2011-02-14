@@ -148,23 +148,7 @@ module Tetris
           if status == STATUS_YES
             # that one fits
             # change the board and add it to possibilities
-            possible_board = deep_copy(self)
-            possible_board.parent = self
-            possible_board.landing_height = 0
-            @tm.each_with_index do |tm_row_obj2, tm_row2|
-              tm_row_obj2.each_with_index do |tm_column2_obj, tm_column2|
-                if @tm[tm_row2][tm_column2] > 0
-                  possible_board.board[row + tm_row2][column + tm_column2] = 1
-                  possible_board.landing_height = row + tm_row2 if row + tm_row2 > possible_board.landing_height
-                end
-              end
-            end
-            
-            # forward tetrominos
-            possible_board.current_tetromino = deep_copy(possible_board.next_tetromino)
-            possible_board.next_tetromino = Tetromino.generate_random
-            
-            possible_board.remove_complete_lines
+            possible_board = get_board_with_tetromino_placed :at_row => row, :at_column => column
             possibilities << possible_board
           end  
                   
@@ -224,7 +208,32 @@ module Tetris
       end
     end
     
-    private 
+    private
+    
+    def get_board_with_tetromino_placed(values)
+      row = values[:at_row]
+      column = values[:at_column]
+      
+      possible_board = deep_copy(self)
+      possible_board.parent = self
+      possible_board.landing_height = 0
+      @tm.each_with_index do |tm_row_obj2, tm_row2|
+        tm_row_obj2.each_with_index do |tm_column2_obj, tm_column2|
+          if @tm[tm_row2][tm_column2] > 0
+            possible_board.board[row + tm_row2][column + tm_column2] = 1
+            possible_board.landing_height = row + tm_row2 if row + tm_row2 > possible_board.landing_height
+          end
+        end
+      end
+      
+      # forward tetrominos
+      possible_board.current_tetromino = deep_copy(possible_board.next_tetromino)
+      possible_board.next_tetromino = Tetromino.generate_random
+      
+      possible_board.remove_complete_lines
+      
+      possible_board
+    end
     
     # there must be at least one block below the TM
     def tetromino_sticky?(tm, row, column)
