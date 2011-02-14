@@ -66,6 +66,23 @@ describe "tetris command line game" do
       @possibilities = @board.generate_possibilities_for_current_tetromino
       @possibilities.should have(1).items
     end
+    
+    # 00000     00000     00000
+    # 11100     11100     11100
+    # 00100 NOT 11100 BUT 00111
+    # 00100 =>  11100     00111
+    it "should not be possible to place a TM in an enclosed hole", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 4}))
+      @board = @game.board
+        .set(1,0).set(1,1).set(1,2)
+                          .set(2,2)
+                          .set(3,2)
+      @tm = Tetris::Tetromino.new('O')
+      @board.current_tetromino = @tm
+      @possibilities = @board.generate_possibilities_for_current_tetromino
+      @possibilities.map(&:state_hash).should_not include("00000111001110011100")
+      # @possibilities.map(&:state_hash).should     include("00000111000011100111")
+    end
   end
   
   describe "loose the game" do
