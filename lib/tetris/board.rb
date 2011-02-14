@@ -83,9 +83,10 @@ module Tetris
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
+      # calculate holes for board
       hole_coordinates = []
-      rows.each_with_index do |row3, row_index|
-        row3.each_with_index do |block, column_index|
+      rows.each_with_index do |row, row_index|
+        row.each_with_index do |block, column_index|
           # skip occupied cells
           next if block == 1
     
@@ -97,6 +98,7 @@ module Tetris
         end
       end
       
+      # now iterate over whole board
       for_each_row do |row_obj, row|
         tm_was_placed_somewhere_in_that_row = STATUS_NO
         for_each_block_in_row(row_obj, row) do |column_obj, column, row|
@@ -216,11 +218,11 @@ module Tetris
       possible_board = deep_copy(self)
       possible_board.parent = self
       possible_board.landing_height = 0
-      @tm.each_with_index do |tm_row_obj2, tm_row2|
-        tm_row_obj2.each_with_index do |tm_column2_obj, tm_column2|
-          if @tm[tm_row2][tm_column2] > 0
-            possible_board.board[row + tm_row2][column + tm_column2] = 1
-            possible_board.landing_height = row + tm_row2 if row + tm_row2 > possible_board.landing_height
+      @tm.each_with_index do |tm_row_obj, tm_row|
+        tm_row_obj.each_with_index do |tm_column_obj, tm_column|
+          if @tm[tm_row][tm_column] > 0
+            possible_board.board[row + tm_row][column + tm_column] = 1
+            possible_board.landing_height = row + tm_row if row + tm_row > possible_board.landing_height
           end
         end
       end
