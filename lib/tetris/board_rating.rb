@@ -38,21 +38,7 @@ module Tetris
     
     # Holes: The number of all unoccupied cells that have at least one occupied above them.
     def holes
-      holes = 0
-      @board.rows.each_with_index do |row, row_index|
-        row.each_with_index do |block, column_index|
-          # skip occupied cells
-          next if block == 1
-          
-          # +1 if there is at least one occupied above
-          holes = holes + 1 if row_index.times.any? do |i|
-            @board.board[i][column_index] == 1
-          end
-          
-        end
-      end
-      
-      holes
+      @board.hole_coordinates.count
     end
     
     # Connectd Holes: Same as Holes above, however vertically connected unoccupied cells only count as one hole.
