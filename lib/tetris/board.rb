@@ -181,39 +181,33 @@ module Tetris
         tm_row_obj.each_with_index do |tm_column_obj, tm_column|
           next if @tm[tm_row][tm_column] == 0
 
-          # block below
+          # block is below the field below
           if @board[row + tm_row] == nil
-            status = STATUS_NO unless @tm[tm_row].all? { |i| i == 0 }
-            next
+            return STATUS_NO unless @tm[tm_row].all? { |i| i == 0 }
           end
           
           # block beyond the right edge of the field
           if @board[row + tm_row][column + tm_column] == nil
-            status = STATUS_NO; break unless @tm[tm_row][tm_column] == 0
+            return STATUS_NO unless @tm[tm_row][tm_column] == 0
           end
           
           if @board[row + tm_row][column + tm_column] == 1
-            status = STATUS_NO; break # skipping whole loop would be great
+            return STATUS_NO
           end
           
           # block beyond the left edge of the field
           if tm_column + column < 0 && @tm[tm_row][tm_column] > 0
-            status = STATUS_NO; break
+            return STATUS_NO
           end
           
           # tm must not occupy a hole
           if @hole_coordinates.include? [row + tm_row, column + tm_column]
-            status = STATUS_NO; break
+            return STATUS_NO
           end
           
-          # so there is enough space here, great
-          # but is there any ground below?
-          # only check bottom row of TM
-          if status == STATUS_YES
-            @tm_was_placed_somewhere_in_that_row = STATUS_YES
-            status = tetromino_sticky?(@tm, row, column)
-          end
-          
+          # so there is enough space here
+          @tm_was_placed_somewhere_in_that_row = STATUS_YES
+          status = tetromino_sticky?(@tm, row, column)
         end
       end
       
