@@ -83,20 +83,7 @@ module Tetris
     def generate_possibilities_for_current_tetromino
       possibilities = []
       
-      # calculate holes for board
-      @hole_coordinates = []
-      rows.each_with_index do |row, row_index|
-        row.each_with_index do |block, column_index|
-          # skip occupied cells
-          next if block == 1
-    
-          # +1 if there is at least one occupied above
-          @hole_coordinates << [row_index, column_index] if row_index.times.any? do |i|
-            @board[i][column_index] == 1
-          end
-    
-        end
-      end
+      @hole_coordinates = hole_coordinates
       
       # now iterate over whole board
       for_each_row do |row_obj, row|
@@ -167,6 +154,26 @@ module Tetris
       @previously_removed_lines.times do
          @board.unshift(Array.new(@dimensions.width, 0))
       end
+    end
+    
+    def hole_coordinates
+      return @hole_coordinates unless @hole_coordinates.nil?
+      
+      @hole_coordinates = []
+      rows.each_with_index do |row, row_index|
+        row.each_with_index do |block, column_index|
+          # skip occupied cells
+          next if block == 1
+    
+          # +1 if there is at least one occupied above
+          @hole_coordinates << [row_index, column_index] if row_index.times.any? do |i|
+            @board[i][column_index] == 1
+          end
+    
+        end
+      end
+      
+      return @hole_coordinates
     end
     
     private
