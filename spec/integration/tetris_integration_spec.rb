@@ -71,7 +71,7 @@ describe "tetris command line game" do
     # 11100     11100     11100
     # 00100 NOT 11100 BUT 00111
     # 00100 =>  11100     00111 (see following test)
-    it "should not be possible to place a TM in an enclosed hole", :current => true do
+    it "should not be possible to place a TM in an enclosed hole" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 4}))
       @board = @game.board
         .set(1,0).set(1,1).set(1,2)
@@ -84,7 +84,7 @@ describe "tetris command line game" do
     end
     
     # see test above for description
-    it "should be possible to place an O", :current => true do
+    it "should be possible to place an O" do
       @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 5, :height => 4}))
       @board = @game.board
         .set(1,0).set(1,1).set(1,2)
@@ -95,6 +95,55 @@ describe "tetris command line game" do
       @possibilities = @board.generate_possibilities_for_current_tetromino
       @possibilities.map(&:state_hash).should     include("00000111000011100111")
     end
+    
+    # 0000
+    # 1101 +Z
+    # 1001 => No Possibilities
+    # 1011
+    it "should not be possible to place a Z in an unreachable place" do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 4, :height => 4}))
+      @board = @game.board
+        .set(1,0).set(1,1)         .set(1,3)
+        .set(2,0)                  .set(2,3)        
+        .set(3,0)         .set(3,2).set(3,3)  
+      @tm = Tetris::Tetromino.new('Z')
+      @board.current_tetromino = @tm
+      @possibilities = @board.generate_possibilities_for_current_tetromino_including_variants
+      @possibilities.count.should eql(0)
+    end
+
+    # 0111
+    # 0011
+    # 0001
+    # 0001
+    it "should not be possible to place an L in an unreachable place" do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 6, :height => 4}))
+      @board = @game.board
+        .set(0,1).set(0,2).set(0,3).set(0,4).set(0,5)
+                 .set(1,2).set(1,3).set(1,4).set(1,5)
+                          .set(2,3).set(2,4).set(2,5)
+                          .set(3,3).set(3,4).set(3,5)
+      @board.current_tetromino = Tetris::Tetromino.new('L')
+      @possibilities = @board.generate_possibilities_for_current_tetromino_including_variants
+      @possibilities.count.should eql(0)
+    end
+    
+    # 0111
+    # 0011
+    # 0001
+    # 0001
+    it "should be possible to place an I on the edge of the board", :current => true do
+      @game = Tetris::Game.new(Tetris::Dimensions.new({:width => 6, :height => 4}))
+      @board = @game.board
+        .set(0,1).set(0,2).set(0,3).set(0,4).set(0,5)
+                 .set(1,2).set(1,3).set(1,4).set(1,5)
+                          .set(2,3).set(2,4).set(2,5)
+                          .set(3,3).set(3,4).set(3,5)
+      @board.current_tetromino = Tetris::Tetromino.new('I')
+      @possibilities = @board.generate_possibilities_for_current_tetromino_including_variants
+      @possibilities.count.should eql(1)
+    end
+    
   end
   
   describe "loose the game" do
