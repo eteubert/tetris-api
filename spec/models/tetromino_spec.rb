@@ -32,7 +32,7 @@ describe Tetris::Tetromino do
     @tm.rotate.to_s.should eql(" *  \n *  \n *  \n *  \n")
   end
   
-  it "should be possible to roate more often than there are states" do
+  it "should be possible to rotate more often than there are states" do
     @tm = Tetris::Tetromino.new('I')
     @tm.rotate.rotate.to_s.should eql(@tm.to_s)
   end
